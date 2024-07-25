@@ -14,32 +14,46 @@
             padding: 0;
             background-color: #000;
             color: #fff;
+            overflow: hidden;
         }
 
         #board {
-            /* background-color: skyblue; */
-            background-image: url("./flappybirdbg.png");
             display: block;
             margin: 0 auto;
+            background-image: url("./flappybirdbg.png");
         }
 
         h1 {
-            font-size: 48px;
-            margin: 20px 0;
+            font-size: 6vw;
+            margin: 10px 0;
             color: #fff;
             text-shadow: 2px 2px #000;
+        }
+
+        .scoreboard {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 4vw;
+            color: #fff;
+            text-shadow: 1px 1px #000;
         }
     </style>
 </head>
 <body>
     <h1>Gamster Kombat</h1>
     <canvas id="board"></canvas>
+    <div class="scoreboard">
+        <div id="current-score">Score: 0</div>
+        <div id="high-score">High Score: 0</div>
+        <div id="ping">Ping: 0 ms</div>
+    </div>
 
     <script>
         //board
         let board;
-        let boardWidth = 360;
-        let boardHeight = 640;
+        let boardWidth = window.innerWidth * 0.9;
+        let boardHeight = window.innerHeight * 0.7;
         let context;
 
         //bird
@@ -162,6 +176,10 @@
             if (gameOver) {
                 context.fillText("GAME OVER", 5, 160);
             }
+
+            document.getElementById('current-score').innerText = "Score: " + score;
+            document.getElementById('high-score').innerText = "High Score: " + highScore;
+            document.getElementById('ping').innerText = "Ping: " + ping + " ms";
         }
 
         function placePipes() {
