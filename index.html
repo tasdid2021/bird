@@ -75,6 +75,8 @@
         let score = 0;
         let highScore = localStorage.getItem("highScore") || 0;
 
+        let ping = 0;
+
         window.onload = function () {
             board = document.getElementById("board");
             board.height = boardHeight;
@@ -103,6 +105,8 @@
             document.addEventListener("keydown", moveBird);
             document.addEventListener("mousedown", moveBird);
             document.addEventListener("touchstart", moveBird);
+
+            setInterval(measurePing, 1000); // Measure ping every 1 second
         }
 
         function update() {
@@ -153,9 +157,10 @@
             context.fillText(score, 5, 45);
             context.font = "30px sans-serif";
             context.fillText("High Score: " + highScore, 5, 85);
+            context.fillText("Ping: " + ping + " ms", 5, 125);
 
             if (gameOver) {
-                context.fillText("GAME OVER", 5, 130);
+                context.fillText("GAME OVER", 5, 160);
             }
         }
 
@@ -211,6 +216,17 @@
                 a.x + a.width > b.x &&   //a's top right corner passes b's top left corner
                 a.y < b.y + b.height &&  //a's top left corner doesn't reach b's bottom left corner
                 a.y + a.height > b.y;    //a's bottom left corner passes b's top left corner
+        }
+
+        function measurePing() {
+            let startTime = Date.now();
+            fetch("./flappybird.png") // You can use any lightweight file on your server
+                .then(() => {
+                    ping = Date.now() - startTime;
+                })
+                .catch(() => {
+                    ping = "Error";
+                });
         }
     </script>
 </body>
